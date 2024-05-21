@@ -23,7 +23,7 @@ class BMICalculatorViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        
+
     }
 
     func configureUI() {
@@ -62,7 +62,7 @@ class BMICalculatorViewController: UIViewController {
         
         guard let userHeight = Double(height) else { return }
         guard let userWeight = Double(weight) else { return }
-
+        
         let bmi = (userWeight / (userHeight * userHeight)) * 10000
         
         var body = ""
@@ -77,7 +77,37 @@ class BMICalculatorViewController: UIViewController {
             body = "비만"
         }
         
-        let alert = UIAlertController(title: "BMI 지수는?", message: "당신은 '\(body)'입니다!", preferredStyle: .alert)
+        let alert = UIAlertController(title: "BMI 지수는?", message: "당신은 키: \(userHeight)cm, 몸무게: \(userWeight)kg으로 bmi 지수는 '\(body)'입니다!", preferredStyle: .alert)
+        let openButton = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(openButton)
+        present(alert, animated: true)
+        
+        heightTextField.text = ""
+        weightTextField.text = ""
+    }
+    
+    @IBAction func randomButtonClicked(_ sender: UIButton) {
+        let randomHeight = Double.random(in: 140...200)
+        let randomWeight = Double.random(in: 40...110)
+        
+        let intHeight = Int(randomHeight)
+        let intWeight = Int(randomWeight)
+        
+        let bmi = (randomWeight / (randomHeight * randomHeight)) * 10000
+        
+        var body = ""
+        
+        if bmi < 18.8 {
+            body = "저체중"
+        } else if bmi > 18.5 && bmi < 22.9 {
+            body = "정상"
+        } else if bmi > 23.0 && bmi < 24.9 {
+            body = "과체중"
+        } else {
+            body = "비만"
+        }
+        
+        let alert = UIAlertController(title: "BMI 지수는?", message: "키: \(intHeight)cm, 몸무게: \(intWeight)kg으로 bmi 지수는 '\(body)'입니다!", preferredStyle: .alert)
         let openButton = UIAlertAction(title: "확인", style: .default)
         alert.addAction(openButton)
         present(alert, animated: true)
