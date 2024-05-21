@@ -57,7 +57,46 @@ class BMICalculatorViewController: UIViewController {
     }
     
     @IBAction func resultButtonClicked(_ sender: UIButton) {
+        guard let height = heightTextField.text else { return }
+        guard let weight = weightTextField.text else { return }
         
+        guard let userHeight = Double(height) else { return }
+        guard let userWeight = Double(weight) else { return }
+
+        let bmi = (userWeight / (userHeight * userHeight)) * 10000
+        
+        var body = ""
+        
+        if bmi < 18.8 {
+            body = "저체중"
+        } else if bmi > 18.5 && bmi < 22.9 {
+            body = "정상"
+        } else if bmi > 23.0 && bmi < 24.9 {
+            body = "과체중"
+        } else {
+            body = "비만"
+        }
+        
+        let alert = UIAlertController(title: "BMI 지수는?", message: "당신은 '\(body)'입니다!", preferredStyle: .alert)
+        let openButton = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(openButton)
+        present(alert, animated: true)
+    }
+    
+    @IBAction func secretButtonClicked(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        
+        if sender.isSelected {
+            weightTextField.isSecureTextEntry = true
+            secretButton.tintColor = .systemRed
+        } else {
+            weightTextField.isSecureTextEntry = false
+            secretButton.tintColor = .darkGray
+        }
+    }
+    
+    @IBAction func viewTouched(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 }
 

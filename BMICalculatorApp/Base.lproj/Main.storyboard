@@ -87,10 +87,14 @@
                                 <rect key="frame" x="308" y="415.66666666666669" width="75" height="50"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="eye.slash" catalog="system"/>
+                                <connections>
+                                    <action selector="secretButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WZT-8h-Wkd"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="zCX-gp-xLe" firstAttribute="top" secondItem="5pE-EY-CM4" secondAttribute="bottom" constant="20" id="0Yb-RI-w9b"/>
                             <constraint firstItem="at8-rV-Km1" firstAttribute="leading" secondItem="Uc3-xg-DXY" secondAttribute="trailing" constant="-75" id="0ut-2i-3wS"/>
@@ -120,6 +124,9 @@
                             <constraint firstItem="Uc3-xg-DXY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="z2g-7B-Qr9"/>
                             <constraint firstItem="piS-0a-g2G" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="zIu-Vb-WyG"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="h5X-1I-f9C" appends="YES" id="cd5-3L-Pl0"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="bmiImageView" destination="kto-WU-PYS" id="cdT-Ou-Fu3"/>
@@ -135,6 +142,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="h5X-1I-f9C">
+                    <connections>
+                        <action selector="viewTouched:" destination="BYZ-38-t0r" id="sFS-pe-Poe"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-228.24427480916029" y="117.60563380281691"/>
         </scene>
