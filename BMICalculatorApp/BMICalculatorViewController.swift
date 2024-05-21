@@ -100,7 +100,9 @@ class BMICalculatorViewController: UIViewController {
              body = "고도비만"
          }
          
-         showAlert(title: "BMI 지수는?", message: "당신은 키: \(height)cm, 몸무게: \(weight)kg의 bmi 지수는 '\(body)'입니다!")
+         let roundedHeight = String(format: "%.1f", height)
+         let roundedWeight = String(format: "%.1f", weight)
+         showAlert(title: "BMI 지수는?", message: "당신은 키: \(roundedHeight)cm, 몸무게: \(roundedWeight)kg의 bmi 지수는 '\(body)'입니다!")
          heightTextField.text = ""
          weightTextField.text = ""
      }
