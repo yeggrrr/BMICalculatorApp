@@ -22,8 +22,10 @@ class BMICalculatorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        heightTextField.delegate = self
+        weightTextField.delegate = self
+        
         configureUI()
-
     }
 
     func configureUI() {
@@ -111,6 +113,9 @@ class BMICalculatorViewController: UIViewController {
         let openButton = UIAlertAction(title: "확인", style: .default)
         alert.addAction(openButton)
         present(alert, animated: true)
+        
+        heightTextField.text = ""
+        weightTextField.text = ""
     }
     
     @IBAction func secretButtonClicked(_ sender: UIButton) {
@@ -147,5 +152,24 @@ extension UITextField {
         tintColor = .black
         keyboardType = .numberPad
         keyboardAppearance = .light
+    }
+}
+
+extension BMICalculatorViewController: UITextFieldDelegate {
+    func textFieldTextCount(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard textField.text!.count < 3 else { return false } // 글자수 3으로 제한
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // 백스페이스 처리
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 {
+                return true
+            }
+        }
+        guard textField.text!.count < 3 else { return false } // 글자수 3으로 제한
+        return true
     }
 }
