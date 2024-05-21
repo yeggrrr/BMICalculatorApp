@@ -8,6 +8,11 @@
 import UIKit
 
 class BMICalculatorViewController: UIViewController {
+    enum BMIType {
+        case random
+        case userInput
+    }
+    
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var subTitleLabel: UILabel!
     @IBOutlet var bmiImageView: UIImageView!
@@ -30,8 +35,8 @@ class BMICalculatorViewController: UIViewController {
 
     func configureUI() {
         // label
-        titleLabel.setUI("BMI Calculator", fontSize: .boldSystemFont(ofSize: 20))
-        subTitleLabel.setUI("당신의 BMI 지수를 \n알려드릴게요!", fontSize: .systemFont(ofSize: 16))
+        titleLabel.setUI("BMI Calculator", fontSize: .boldSystemFont(ofSize: 25))
+        subTitleLabel.setUI("당신의 BMI 지수를 \n알려드릴게요!", fontSize: .systemFont(ofSize: 17))
         heightLabel.setUI("키가 어떻게 되시나요?", fontSize: .systemFont(ofSize: 16))
         weightLabel.setUI("몸무게가 어떻게 되시나요?", fontSize: .systemFont(ofSize: 16))
 
@@ -58,74 +63,72 @@ class BMICalculatorViewController: UIViewController {
         resultButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
     }
     
-    @IBAction func resultButtonClicked(_ sender: UIButton) {
-        guard let height = heightTextField.text else { return }
-        guard let weight = weightTextField.text else { return }
-        
-        guard let userHeight = Double(height) else { return }
-        guard let userWeight = Double(weight) else { return }
-        
-        let bmi = (userWeight / (userHeight * userHeight)) * 10000
-        
-        var body = ""
-        
-        if bmi < 18.8 {
-            body = "저체중"
-        } else if bmi > 18.5 && bmi < 22.9 {
-            body = "정상"
-        } else if bmi > 23.0 && bmi < 24.9 {
-            body = "과체중"
-        } else {
-            body = "비만"
-        }
-        
-        let alert = UIAlertController(title: "BMI 지수는?", message: "당신은 키: \(userHeight)cm, 몸무게: \(userWeight)kg으로 bmi 지수는 '\(body)'입니다!", preferredStyle: .alert)
+     func getBMI(type: BMIType) {
+         var weight: Double
+         var height: Double
+         
+         switch type {
+         case .random:
+             height = Double.random(in: 140...200)
+             weight = Double.random(in: 40...110)
+         case .userInput:
+             guard let heightText = heightTextField.text, let userHeight = Double(heightText) else {
+                 showAlert(title: "입력값 오류", message: "키를 숫자로 입력해주세요.")
+                 return
+             }
+             height = userHeight
+             guard let weightText = weightTextField.text, let userWeight = Double(weightText) else {
+                 showAlert(title: "입력값 오류", message: "몸무게를 숫자로 입력해주세요.")
+                 return
+             }
+             weight = userWeight
+         }
+         
+         let bmi = weight / sqrt(height * 100)
+         var body = ""
+         
+         switch bmi {
+         case 0..<18.6:
+             body = "저체중"
+         case 18.6..<24:
+             body = "정상"
+         case 24..<26:
+             body = "과체중"
+         case 26..<31:
+             body = "비만"
+         default:
+             body = "고도비만"
+         }
+         
+         showAlert(title: "BMI 지수는?", message: "당신은 키: \(height)cm, 몸무게: \(weight)kg의 bmi 지수는 '\(body)'입니다!")
+         heightTextField.text = ""
+         weightTextField.text = ""
+     }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let openButton = UIAlertAction(title: "확인", style: .default)
         alert.addAction(openButton)
         present(alert, animated: true)
-        
-        heightTextField.text = ""
-        weightTextField.text = ""
+    }
+    
+    @IBAction func resultButtonClicked(_ sender: UIButton) {
+        getBMI(type: .userInput)
     }
     
     @IBAction func randomButtonClicked(_ sender: UIButton) {
-        let randomHeight = Double.random(in: 140...200)
-        let randomWeight = Double.random(in: 40...110)
-        
-        let intHeight = Int(randomHeight)
-        let intWeight = Int(randomWeight)
-        
-        let bmi = (randomWeight / (randomHeight * randomHeight)) * 10000
-        
-        var body = ""
-        
-        if bmi < 18.8 {
-            body = "저체중"
-        } else if bmi > 18.5 && bmi < 22.9 {
-            body = "정상"
-        } else if bmi > 23.0 && bmi < 24.9 {
-            body = "과체중"
-        } else {
-            body = "비만"
-        }
-        
-        let alert = UIAlertController(title: "BMI 지수는?", message: "키: \(intHeight)cm, 몸무게: \(intWeight)kg으로 bmi 지수는 '\(body)'입니다!", preferredStyle: .alert)
-        let openButton = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(openButton)
-        present(alert, animated: true)
-        
-        heightTextField.text = ""
-        weightTextField.text = ""
+        getBMI(type: .random)
     }
     
     @IBAction func secretButtonClicked(_ sender: UIButton) {
         sender.isSelected.toggle()
         
-        if sender.isSelected {
-            weightTextField.isSecureTextEntry = true
+        let isSecret = sender.isSelected
+        weightTextField.isSecureTextEntry = isSecret
+        
+        if isSecret {
             secretButton.tintColor = .systemRed
         } else {
-            weightTextField.isSecureTextEntry = false
             secretButton.tintColor = .darkGray
         }
     }
@@ -156,20 +159,8 @@ extension UITextField {
 }
 
 extension BMICalculatorViewController: UITextFieldDelegate {
-    func textFieldTextCount(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard textField.text!.count < 3 else { return false } // 글자수 3으로 제한
-        return true
-    }
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // 백스페이스 처리
-        if let char = string.cString(using: String.Encoding.utf8) {
-            let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 {
-                return true
-            }
-        }
-        guard textField.text!.count < 3 else { return false } // 글자수 3으로 제한
-        return true
+        guard let text = textField.text else { return false }
+        return text.count < 3
     }
 }
