@@ -168,7 +168,6 @@ class BMICalculatorViewController: UIViewController {
         let openButton = UIAlertAction(title: "확인", style: .default)
         alert.addAction(openButton)
         present(alert, animated: true)
-        print(fetchDecodedBMIData())
     }
     
     func fetchDecodedBMIData() -> [DataStorage.BMIData] {
@@ -178,8 +177,7 @@ class BMICalculatorViewController: UIViewController {
             let result = try decoder.decode([DataStorage.BMIData].self, from: bmiData)
             print("decoded data: \(result)")
             return result
-        }
-        catch {
+        } catch {
             print("decode error: \(error)")
         }
         

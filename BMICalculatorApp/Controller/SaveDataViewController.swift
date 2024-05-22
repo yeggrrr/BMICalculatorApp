@@ -37,11 +37,11 @@ extension SaveDataViewController: UITableViewDelegate, UITableViewDataSource {
         cell.dateLabel.textColor = .lightGray
         cell.dateLabel.font = .boldSystemFont(ofSize: 15)
         
-        cell.heightLabel.text = "\(heightData)"
+        cell.heightLabel.text = "\(heightData)cm"
         cell.heightLabel.textColor = .darkGray
         cell.heightLabel.font = .boldSystemFont(ofSize: 17)
         
-        cell.weightLabel.text = "\(weightData)"
+        cell.weightLabel.text = "\(weightData)kg"
         cell.weightLabel.textColor = .darkGray
         cell.weightLabel.font = .boldSystemFont(ofSize: 17)
         
