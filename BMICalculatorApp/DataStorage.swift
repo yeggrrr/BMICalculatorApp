@@ -18,6 +18,7 @@ class DataStorage {
     }
     
     var dataList: [BMIData] = []
+    var nickname: String = ""
 }
 
 

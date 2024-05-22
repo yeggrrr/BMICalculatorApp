@@ -21,6 +21,7 @@ class BMICalculatorViewController: UIViewController {
     @IBOutlet var weightLabel: UILabel!
     @IBOutlet var weightTextField: UITextField!
     @IBOutlet var randomCalculateButton: UIButton!
+    @IBOutlet var changeNicknameButton: UIButton!
     @IBOutlet var resultButton: UIButton!
     @IBOutlet var secretButton: UIButton!
     @IBOutlet var searchListButton: UIButton!
@@ -34,23 +35,37 @@ class BMICalculatorViewController: UIViewController {
         heightTextField.delegate = self
         weightTextField.delegate = self
         
-        configureUI()
         initializeDataList(removeAll: false)
+        configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        initializeDataList(removeAll: false)
+        configureUI()
     }
     
     func initializeDataList(removeAll: Bool) {
+        // BMI 데이터 초기화
         if removeAll {
             defautls.removeObject(forKey: "newData")
         }
-        // 초기값 세팅
         let decodedData = fetchDecodedBMIData()
         DataStorage.shared.dataList = decodedData
+        
+        // 닉네임 초기화
+        if let savedNickname = defautls.string(forKey: "nickname") {
+            DataStorage.shared.nickname = "'\(savedNickname)'님"
+        }
+        else {
+            DataStorage.shared.nickname = "당신"
+        }
     }
     
     func configureUI() {
         // label
         titleLabel.setUI("BMI Calculator", fontSize: .boldSystemFont(ofSize: 25))
-        subTitleLabel.setUI("당신의 BMI 지수를 \n알려드릴게요!", fontSize: .systemFont(ofSize: 17))
+        subTitleLabel.setUI("\(DataStorage.shared.nickname)의 BMI 지수를 \n알려드릴게요!", fontSize: .systemFont(ofSize: 17))
         heightLabel.setUI("키가 어떻게 되시나요?", fontSize: .systemFont(ofSize: 16))
         weightLabel.setUI("몸무게가 어떻게 되시나요?", fontSize: .systemFont(ofSize: 16))
         
@@ -62,7 +77,9 @@ class BMICalculatorViewController: UIViewController {
         secretButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         secretButton.tintColor = .darkGray
 
-        randomCalculateButton.setUI("랜덤으로 BMI 계산하기", .systemBrown, background: .clear)
+        randomCalculateButton.setUI("랜덤으로 BMI 계산하기", .systemOrange, background: .clear)
+        
+        changeNicknameButton.setUI("닉네임 변경하기", .systemOrange, background: .clear)
         
         resultButton.setUI("결과 확인", .white, background: .systemPurple)
         resultButton.layer.cornerRadius = 15
@@ -72,7 +89,6 @@ class BMICalculatorViewController: UIViewController {
         searchListButton.layer.borderWidth = 1
         searchListButton.layer.cornerRadius = 10
         searchListButton.titleLabel?.font = .systemFont(ofSize: 15)
-        // searchListButton.
         
         deleteListButton.setUI("리스트 비우기", .systemRed, background: .clear)
         deleteListButton.layer.borderWidth = 1
@@ -176,6 +192,11 @@ class BMICalculatorViewController: UIViewController {
     
     @IBAction func randomButtonClicked(_ sender: UIButton) {
         getBMI(type: .random)
+    }
+    
+    @IBAction func changeNicknameButtonClicked(_ sender: UIButton) {
+        guard let nicknameVC = self.storyboard?.instantiateViewController(identifier: "NicknameVC") as? NicknameViewController else { return }
+        self.present(nicknameVC, animated: true)
     }
     
     @IBAction func secretButtonClicked(_ sender: UIButton) {

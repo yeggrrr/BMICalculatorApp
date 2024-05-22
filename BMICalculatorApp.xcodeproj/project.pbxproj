@@ -16,6 +16,7 @@
 		684BA2622BFDCF800078BF11 /* SaveDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684BA2612BFDCF800078BF11 /* SaveDataViewController.swift */; };
 		684BA2642BFDD5A50078BF11 /* SaveDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684BA2632BFDD5A50078BF11 /* SaveDataTableViewCell.swift */; };
 		684BA2662BFDD8790078BF11 /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684BA2652BFDD8790078BF11 /* DataStorage.swift */; };
+		68C771662BFE252C0068CE88 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C771652BFE252C0068CE88 /* NicknameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		684BA2612BFDCF800078BF11 /* SaveDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataViewController.swift; sourceTree = "<group>"; };
 		684BA2632BFDD5A50078BF11 /* SaveDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataTableViewCell.swift; sourceTree = "<group>"; };
 		684BA2652BFDD8790078BF11 /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
+		68C771652BFE252C0068CE88 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				684BA2462BFC85610078BF11 /* BMICalculatorViewController.swift */,
 				684BA2612BFDCF800078BF11 /* SaveDataViewController.swift */,
+				68C771652BFE252C0068CE88 /* NicknameViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 				684BA2452BFC85610078BF11 /* SceneDelegate.swift in Sources */,
 				684BA2662BFDD8790078BF11 /* DataStorage.swift in Sources */,
 				684BA2642BFDD5A50078BF11 /* SaveDataTableViewCell.swift in Sources */,
+				68C771662BFE252C0068CE88 /* NicknameViewController.swift in Sources */,
 				684BA2622BFDCF800078BF11 /* SaveDataViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
