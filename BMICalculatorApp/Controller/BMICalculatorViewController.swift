@@ -93,6 +93,7 @@ class BMICalculatorViewController: UIViewController {
         deleteListButton.setUI("리스트 비우기", .systemRed, background: .clear)
         deleteListButton.layer.borderWidth = 1
         deleteListButton.layer.cornerRadius = 10
+        deleteListButton.layer.borderColor = UIColor.systemRed.cgColor
         deleteListButton.titleLabel?.font = .systemFont(ofSize: 15)
     }
     
