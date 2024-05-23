@@ -42,13 +42,23 @@ class NicknameViewController: UIViewController {
         resetButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
     }
     
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let openButton = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(openButton)
+        present(alert, animated: true)
+    }
+    
     @IBAction func saveButtonClicked(_ sender: UIButton) {
         guard let text = nicknameTextField.text else { return }
         UserDefaults.standard.setValue(text, forKey: "nickname")
         
+        showAlert(title: "닉네임이 '\(text)'으로 변경되었습니다.", message: "")
     }
     
     @IBAction func resetButtonClicked(_ sender: UIButton) {
         UserDefaults.standard.removeObject(forKey: "nickname")
+        
+        showAlert(title: "닉네임 리셋 성공!", message: "")
     }
 }
